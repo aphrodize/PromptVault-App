@@ -1,0 +1,161 @@
+# PromptVault: แอปพลิเคชันจัดการ Prompt AI
+
+PromptVault เป็นเว็บแอปพลิเคชันแบบ Full-stack ที่ช่วยให้คุณสามารถจัดเก็บ จัดการ และเรียกดู prompt สำหรับ AI ได้อย่างง่ายดาย มาพร้อมระบบยืนยันตัวตน (Authentication), แดชบอร์ดสำหรับผู้ดูแลระบบ (Admin Dashboard), และคลัง prompt ที่สามารถค้นหาและกรองข้อมูลได้
+
+## คุณสมบัติหลัก
+
+- ระบบยืนยันตัวตน: เข้าสู่ระบบ / ลงทะเบียน / ออกจากระบบ ด้วยอีเมลและรหัสผ่าน (รองรับ Firebase Auth และโหมด Demo)
+- แดชบอร์ดผู้ดูแลระบบ: ผู้ดูแลระบบสามารถจัดการผู้ใช้, เปลี่ยนบทบาท, เพิ่ม/ลบผู้ใช้ และรีเซ็ตรหัสผ่านได้
+- คลัง Prompt: สร้างและดูรายการ prompt พร้อมข้อมูลเช่น ชื่อ, ข้อความ prompt, ประเภท (รูปภาพ/วิดีโอ)
+- แกลเลอรี Prompt: แสดงผล prompt ในรูปแบบการ์ด พร้อมรูปย่อหรือวิดีโอ YouTube และฟังก์ชันค้นหา/กรองข้อมูล
+
+## เทคโนโลยีที่ใช้
+
+- Frontend: React.js, TailwindCSS, ShadCN UI
+- Authentication: Firebase Authentication (หรือโหมด Demo)
+- Database: Firestore (หรือระบบจำลองในโหมด Demo)
+
+## การติดตั้งและเรียกใช้งาน (สำหรับนักพัฒนา)
+
+ทำตามขั้นตอนด้านล่างเพื่อติดตั้งและเรียกใช้แอปพลิเคชัน PromptVault บนเครื่องของคุณ:
+
+### 1. ข้อกำหนดเบื้องต้น
+
+ตรวจสอบให้แน่ใจว่าคุณได้ติดตั้งสิ่งต่อไปนี้บนเครื่องของคุณ:
+
+- Node.js: เวอร์ชัน 18 หรือสูงกว่า (แนะนำให้ใช้ LTS)
+- pnpm: ตัวจัดการแพ็คเกจ Node.js (สามารถติดตั้งได้ด้วย `npm install -g pnpm`)
+- Git: สำหรับโคลน repository
+
+### 2. โคลน Repository
+
+เปิด Terminal หรือ Command Prompt แล้วรันคำสั่งต่อไปนี้เพื่อโคลนโปรเจกต์:
+
+```bash
+git clone <URL ของ repository>
+cd promptvault
+```
+
+**หมายเหตุ:** เนื่องจากโปรเจกต์นี้ถูกสร้างขึ้นในสภาพแวดล้อม Sandbox และยังไม่มี Repository สาธารณะ คุณจะต้องสร้างไฟล์โปรเจกต์ด้วยตนเองตามโครงสร้างที่ผมได้สร้างไว้ หรือรอให้ผมจัดเตรียมไฟล์ที่บีบอัดให้คุณในภายหลัง
+
+### 3. ติดตั้ง Dependencies
+
+หลังจาก `cd` เข้าไปในไดเรกทอรี `promptvault` แล้ว ให้รันคำสั่งต่อไปนี้เพื่อติดตั้งแพ็คเกจที่จำเป็น:
+
+```bash
+pnpm install
+```
+
+### 4. การตั้งค่า Firebase (ไม่บังคับ)
+
+แอปพลิเคชันนี้รองรับการทำงานใน **โหมด Demo** โดยไม่ต้องตั้งค่า Firebase ใดๆ แต่หากคุณต้องการเชื่อมต่อกับ Firebase จริง ให้ทำตามขั้นตอนเหล่านี้:
+
+1.  **สร้างโปรเจกต์ Firebase:**
+    - ไปที่ [Firebase Console](https://console.firebase.google.com/)
+    - คลิก `Add project` และทำตามขั้นตอนเพื่อสร้างโปรเจกต์ใหม่
+
+2.  **เพิ่มแอปพลิเคชัน Web:**
+    - ในโปรเจกต์ Firebase ของคุณ คลิกไอคอน `Web` (</>)
+    - ลงทะเบียนแอปของคุณและคัดลอก `Firebase configuration` ที่ได้มา
+
+3.  **อัปเดตไฟล์ `src/lib/firebase.js`:**
+    - เปิดไฟล์ `src/lib/firebase.js` ในโปรเจกต์ของคุณ
+    - แทนที่ `// Your web app's Firebase configuration` ด้วยข้อมูลที่คุณคัดลอกมาจาก Firebase Console
+
+    ตัวอย่าง:
+    ```javascript
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    ```
+
+4.  **เปิดใช้งาน Authentication และ Firestore:**
+    - ใน Firebase Console ไปที่ `Build > Authentication` และเปิดใช้งาน `Email/Password` Sign-in method
+    - ไปที่ `Build > Firestore Database` และสร้างฐานข้อมูล (เลือก `Start in production mode` หรือ `Start in test mode` ตามความเหมาะสม)
+
+### 5. เรียกใช้งานแอปพลิเคชัน
+
+หลังจากติดตั้ง Dependencies และตั้งค่า Firebase (หากต้องการ) แล้ว ให้รันคำสั่งต่อไปนี้เพื่อเริ่ม Development Server:
+
+```bash
+pnpm run dev
+```
+
+แอปพลิเคชันจะเปิดขึ้นที่ `http://localhost:5173` โดยอัตโนมัติ (หรือพอร์ตอื่นหากมีการใช้งานอยู่)
+
+### 6. การเข้าสู่ระบบ (โหมด Demo)
+
+หากคุณไม่ได้ตั้งค่า Firebase หรือต้องการทดสอบในโหมด Demo คุณสามารถเข้าสู่ระบบด้วยบัญชีต่อไปนี้:
+
+-   **ผู้ดูแลระบบ (Admin):**
+    -   **อีเมล:** `admin@demo.com`
+    -   **รหัสผ่าน:** `demo123`
+
+-   **ผู้ใช้ทั่วไป (User):**
+    -   **อีเมล:** `user@demo.com`
+    -   **รหัสผ่าน:** `demo123`
+
+คุณยังสามารถลงทะเบียนบัญชีใหม่ได้ในโหมด Demo ซึ่งบัญชีใหม่จะถูกสร้างเป็นบทบาท `user` โดยอัตโนมัติ
+
+## การปรับแต่ง
+
+-   **TailwindCSS:** ไฟล์ `tailwind.config.js` และ `src/index.css` สำหรับการปรับแต่งสไตล์
+-   **ShadCN UI:** คอมโพเนนต์ UI ต่างๆ อยู่ใน `src/components/ui/` และสามารถปรับแต่งได้ตามต้องการ
+
+หากมีข้อสงสัยหรือปัญหาในการติดตั้ง โปรดแจ้งให้ผมทราบได้เลยครับ!
+
+
+
+## การ Deploy บน Vercel
+
+แอปพลิเคชัน PromptVault สามารถ Deploy บน Vercel ได้อย่างง่ายดาย ทำตามขั้นตอนด้านล่าง:
+
+### 1. เตรียมโปรเจกต์ของคุณ
+
+ตรวจสอบให้แน่ใจว่าโปรเจกต์ของคุณพร้อมสำหรับการ Deploy:
+
+-   คุณได้ติดตั้ง Dependencies ทั้งหมดแล้ว (`pnpm install`)
+-   คุณได้ตั้งค่า Firebase (หากต้องการใช้โหมด Production) หรือคุณต้องการใช้โหมด Demo ในการ Deploy
+-   คุณได้สร้าง `build` ของโปรเจกต์แล้ว (ซึ่ง Vercel จะจัดการให้โดยอัตโนมัติเมื่อคุณเชื่อมต่อ Repository)
+
+### 2. สร้าง Repository บน GitHub/GitLab/Bitbucket
+
+หากคุณยังไม่มี ให้สร้าง Repository ใหม่บนแพลตฟอร์มที่คุณใช้ (เช่น GitHub) และ push โค้ดโปรเจกต์ PromptVault ของคุณขึ้นไป
+
+### 3. Deploy ผ่าน Vercel
+
+1.  **เข้าสู่ระบบ Vercel:**
+    - ไปที่ [Vercel](https://vercel.com/)
+    - ลงทะเบียนหรือเข้าสู่ระบบด้วยบัญชีของคุณ (แนะนำให้ใช้ GitHub เพื่อความสะดวก)
+
+2.  **Import Project:**
+    - บนหน้า Dashboard ของ Vercel คลิก `Add New...` -> `Project`
+    - เลือก `Import Git Repository` และเลือก Repository ของโปรเจกต์ PromptVault ของคุณ
+
+3.  **ตั้งค่า Project:**
+    - **Root Directory:** หากโปรเจกต์ของคุณอยู่ใน Subdirectory (เช่น `promptvault/`) ให้ระบุ Path นั้น
+    - **Framework Preset:** Vercel ควรตรวจจับว่าเป็น `Vite` โดยอัตโนมัติ
+    - **Build and Output Settings:** โดยปกติแล้ว Vercel จะตั้งค่าเริ่มต้นให้ถูกต้องสำหรับ Vite (Build Command: `pnpm run build`, Output Directory: `dist`)
+    - **Environment Variables (ตัวเลือก):** หากคุณใช้ Firebase จริงในโหมด Production คุณจะต้องเพิ่ม Environment Variables สำหรับ `apiKey`, `authDomain`, `projectId` ฯลฯ ที่นี่ (เช่น `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`)
+
+4.  **Deploy:**
+    - คลิก `Deploy`
+
+Vercel จะทำการ Build และ Deploy โปรเจกต์ของคุณ เมื่อเสร็จสิ้น คุณจะได้รับ URL สำหรับแอปพลิเคชันที่ Deploy แล้วของคุณ
+
+### 5. การตั้งค่าเพิ่มเติม (สำหรับ Firebase ใน Production)
+
+หากคุณ Deploy โดยใช้ Firebase จริง และพบปัญหาเกี่ยวกับการเชื่อมต่อ Firebase หลังจาก Deploy แล้ว อาจเป็นเพราะ Vercel Build Environment ไม่ได้ใช้ `.env` file ของคุณ คุณจะต้องเพิ่ม Environment Variables ใน Vercel Project Settings ด้วยตนเอง:
+
+1.  ไปที่ Project Dashboard ของคุณบน Vercel
+2.  คลิก `Settings` -> `Environment Variables`
+3.  เพิ่มตัวแปรแต่ละตัวของ Firebase Config ของคุณ (เช่น `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN` เป็นต้น) โดยใช้ชื่อตัวแปรที่ตรงกับที่คุณใช้ในโค้ด (เช่นใน `firebase.js`)
+
+หากมีข้อสงสัยเพิ่มเติมเกี่ยวกับการ Deploy หรือพบปัญหาใดๆ โปรดแจ้งให้ผมทราบได้เลยครับ!
+
