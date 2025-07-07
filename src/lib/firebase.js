@@ -11,13 +11,13 @@ const DEMO_MODE = true; // Set to false when using real Firebase
 // Your web app's Firebase configuration
 // Replace with your actual Firebase config when DEMO_MODE is false
 const firebaseConfig = {
-  apiKey: "demo-api-key",
-  authDomain: "promptvault-demo.firebaseapp.com",
-  projectId: "promptvault-demo",
-  storageBucket: "promptvault-demo.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456789",
-  measurementId: "G-ABCDEF1234"
+  apiKey: "AIzaSyCwWW-xPP4YfzVZrBsOmHk20RPm4EGv_z8",
+  authDomain: "promptvault-app.firebaseapp.com",
+  projectId: "promptvault-app",
+  storageBucket: "promptvault-app.firebasestorage.app",
+  messagingSenderId: "1080695199365",
+  appId: "1:1080695199365:web:80a92916bbcdd22f5e7bec",
+  measurementId: "G-K7Z211Z8NH"
 };
 
 let app, auth, db, storage;
