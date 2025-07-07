@@ -6,7 +6,7 @@ import { getStorage } from 'firebase/storage';
 import { demoAuth, demoDb, demoStorage } from './demoAuth.js';
 
 // Configuration
-const DEMO_MODE = true; // Set to false when using real Firebase
+const DEMO_MODE = false; // Set to false when using real Firebase
 
 // Your web app's Firebase configuration
 // Replace with your actual Firebase config when DEMO_MODE is false
